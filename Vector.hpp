@@ -4,16 +4,20 @@
 template <typename Elem>
 class Vector {
   public :
-    Vector () = default;
+    Vector (unsigned int);
     Vector (const Vector&) = default;
     Vector (Vector&&) = default;
-    virtual Vector& operator= (const Vector&) = default;
+    //virtual Vector& operator= (const Vector&) = default;
     Vector& operator= (Vector&&) = default;
-    virtual const Elem& get () const noexcept = 0;
-    virtual Elem& set (int,Elem) noexcept = 0;
+    virtual const Elem get (int) const noexcept = 0;
+    virtual void set (int,Elem) noexcept = 0;
     virtual ~Vector () = default;
-  private :
+  protected :
     unsigned int VectorSize ;
-}
+};
+
+template <typename Elem>
+Vector<Elem>::Vector(unsigned int size) : VectorSize(size) {}
+
 
 #endif

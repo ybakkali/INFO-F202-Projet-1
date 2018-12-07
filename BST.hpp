@@ -7,7 +7,7 @@ template <typename Elem>
 class BST {
   public :
     BST();
-    ~BST() ;
+    virtual ~BST() ;
     BST(const BST<Elem>&) = default ;
     BST<Elem>& operator=(const BST<Elem>&) = default ;
     typename BST<Elem>::iterator begin() const;
@@ -17,21 +17,20 @@ class BST {
     // when an iterator is incremented passed the end of the container
     // it should compare equal to the iterator returned by this call.
 
-    void insert(int,Elem) ;
-    void inorder(Node<Elem>* ) const ;
-    Elem find(int) const ;
-    Node<Elem>* getRootVal() const ;
     class iterator ;
   protected :
     void setRootVal(Node<Elem>*) ;
+    Node<Elem>* getRootVal() const ;
     Node<Elem>* getGlobalRoot( Node<Elem>*) const ;
     Node<Elem>* getNextNode( Node<Elem>*) const ;
     Node<Elem>* getPreviousNode( Node<Elem>*) const ;
-
+    void fixNextPrevious(Node<Elem>* ) const ;
+    void insert(int,Elem) ;
+    Elem find(int) const ;
     void remove(Node<Elem>&) ; // KO
-
-  private :
     Node<Elem>* GlobalRoot ;
+  private :
+
 };
 
 template <typename Elem>
@@ -129,6 +128,7 @@ void BST<Elem>::insert(int i,Elem newElem) {
       nodeCopy->setRightChild(newNode) ;
     }
   }
+  fixNextPrevious(getRootVal()) ;
 }
 template <typename Elem>
 Elem BST<Elem>::find(int index) const {
@@ -141,27 +141,27 @@ Elem BST<Elem>::find(int index) const {
       currentNode = currentNode->getRightChild() ;
     }
   }
-  if (currentNode==nullptr) {
-    std::cout << "KO" << std::endl ;
+
+  if (currentNode == nullptr) {
+    return false ;
   }
   else {
-    std::cout << "Index :" << currentNode->getInfoIndex() << " Value :" << currentNode->getInfoValue() << std::endl ;
+    return currentNode->getInfoValue() ;
   }
-  return currentNode->getInfoValue() ;
 }
 template <typename Elem>
-void BST<Elem>::inorder(Node<Elem>* currentNode) const {
+void BST<Elem>::fixNextPrevious(Node<Elem>* currentNode) const {
 
   if (currentNode->getLeftChild() != nullptr ) {
-    inorder(currentNode->getLeftChild()) ;
+    fixNextPrevious(currentNode->getLeftChild()) ;
   }
 
   currentNode->setNext(getNextNode(currentNode)) ;
   currentNode->setPrevious(getPreviousNode(currentNode)) ;
-  std::cout <<  currentNode->getInfoIndex() << ":" << currentNode->getInfoValue() <<std::endl  ;
+  //std::cout <<  currentNode->getInfoIndex() << ":" << currentNode->getInfoValue() <<std::endl  ;
 
   if (currentNode->getRightChild() != nullptr) {
-    inorder(currentNode->getRightChild()) ;
+    fixNextPrevious(currentNode->getRightChild()) ;
   }
 }
 
