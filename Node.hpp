@@ -17,8 +17,8 @@ class Node {
     Node(const Node<Elem>& ) ;
     ~Node() ;
     inline Node<Elem>& operator= (const Node<Elem>& ) ;
-    inline bool operator==(Node<Elem>* ) const ;
-    inline bool operator!=(Node<Elem>* ) const ;
+    inline bool operator==(Node<Elem>& ) const ;
+    inline bool operator!=(Node<Elem>& ) const ;
     inline bool operator<(const Node<Elem>& ) const ;
     int getInfoIndex() const ;
     Elem getInfoValue() const ;
@@ -57,11 +57,11 @@ Node<Elem>& Node<Elem>::operator= (const Node<Elem>& other) {
   return *this ;
 }
 template <typename Elem>
-bool Node<Elem>::operator==(Node<Elem>* other) const {
+bool Node<Elem>::operator==(Node<Elem>& other) const {
   return info == other.info ;
 }
 template <typename Elem>
-bool Node<Elem>::operator!=(Node<Elem>* other) const {
+bool Node<Elem>::operator!=(Node<Elem>& other) const {
   return !operator==(other) ;
 }
 template <typename Elem>

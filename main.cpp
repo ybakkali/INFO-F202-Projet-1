@@ -2,9 +2,7 @@
 
 int main() {
 
-  //BST<int> *V = new BST<int>() ;
   SparseVector<int> V(10) ;
-  //BST<int>::iterator test ;
   /*
   for (int i = 0 ; i < 10 ; ++i  ) {
     int x ;
@@ -20,7 +18,9 @@ int main() {
   V.set(3,19) ;
   std::cout << "Value " << V.get(7) << std::endl ;
   std::cout << "Value " << V.get(10) << std::endl ;
-
+  std::cout << "Value " << V.get(3) << std::endl ;
+  V.set(3,100) ;
+  std::cout << "Value " << V.get(3) << std::endl ;
   SparseVector<int>::iterator it;
 
   for(it = V.begin(); it != V.end(); it++) {

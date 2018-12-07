@@ -121,7 +121,10 @@ void BST<Elem>::insert(int i,Elem newElem) {
 
     newNode->setFather(nodeCopy);
 
-    if (*newNode < *nodeCopy ) {
+    if ( *newNode == *nodeCopy ) {
+      nodeCopy->setInfoValue(newElem) ;
+    }
+    else if (*newNode < *nodeCopy ) {
       nodeCopy->setLeftChild(newNode) ;
     }
     else {
