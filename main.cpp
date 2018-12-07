@@ -23,7 +23,7 @@ int main() {
 
   BST<int>::iterator it;
 
-  for(it = tree.begin(); it!=tree.end(); it++) {
+  for(it = tree.begin(); it != tree.end(); it++) {
       std::cout << *it << std::endl;
       /*
       if (it != tree.begin()) {
