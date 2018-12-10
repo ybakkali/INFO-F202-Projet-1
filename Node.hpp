@@ -13,20 +13,24 @@ class Node {
     Node<Elem> *Next ;
     Node<Elem> *Previous ;
   public :
-    Node(int,Elem) ;
+    Node(unsigned int,Elem) ;
     Node(const Node<Elem>& ) ;
+    Node(const Node<Elem>&& ) = default ;
     ~Node() ;
     inline Node<Elem>& operator= (const Node<Elem>& ) ;
+    inline Node<Elem>& operator= (Node<Elem>&& ) = default ; 
     inline bool operator==(Node<Elem>& ) const ;
     inline bool operator!=(Node<Elem>& ) const ;
     inline bool operator<(const Node<Elem>& ) const ;
-    int getInfoIndex() const ;
+    //Getters
+    unsigned int getInfoIndex() const ;
     Elem getInfoValue() const ;
     Node<Elem>* getFather() const ;
     Node<Elem>* getRightChild() const ;
     Node<Elem>* getLeftChild() const ;
     Node<Elem>* getNext() const ;
     Node<Elem>* getPrevious() const ;
+    //Setters
     void setInfoIndex(int)  ;
     void setInfoValue(Elem)  ;
     void setFather(Node<Elem>*) ;
@@ -38,7 +42,7 @@ class Node {
 };
 
 template <typename Elem>
-Node<Elem>::Node(int i,Elem value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr),Next(nullptr),Previous(nullptr){}
+Node<Elem>::Node(unsigned i,Elem value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr),Next(nullptr),Previous(nullptr){}
 
 template <typename Elem>
 Node<Elem>::Node(const Node<Elem>& other) : info(other.info) , Father(other.Father),RightChild(other.RightChild),LeftChild(other.LeftChild),Next(other.Next),Previous(other.Previous) {}
@@ -48,12 +52,14 @@ Node<Elem>::~Node(){}
 
 template <typename Elem>
 Node<Elem>& Node<Elem>::operator= (const Node<Elem>& other) {
-  info = other.info ;
-  Father = other.Father ;
-  RightChild = other.RightChild ;
-  LeftChild = other.LeftChild ;
-  Next = other.Next ;
-  Previous = other.Previous ;
+  if (this != &other) {
+    info = other.info ;
+    Father = other.Father ;
+    RightChild = other.RightChild ;
+    LeftChild = other.LeftChild ;
+    Next = other.Next ;
+    Previous = other.Previous ;
+  }
   return *this ;
 }
 template <typename Elem>
@@ -81,7 +87,7 @@ Elem Node<Elem>::getInfoValue() const {
   return info.getValue() ;
 }
 template <typename Elem>
-int Node<Elem>::getInfoIndex() const {
+unsigned int Node<Elem>::getInfoIndex() const {
   return info.getIndex() ;
 }
 template <typename Elem>

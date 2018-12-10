@@ -24,13 +24,12 @@ class BST {
     Node<Elem>* getGlobalRoot( Node<Elem>*) const ;
     Node<Elem>* getNextNode( Node<Elem>*) const ;
     Node<Elem>* getPreviousNode( Node<Elem>*) const ;
-    void fixNextPrevious(Node<Elem>* ) const ;
-    void insert(int,Elem) ;
-    Elem find(int) const ;
+    void fixNextPrevious(Node<Elem>*) const ;
+    void insert(unsigned int,Elem) ;
+    Elem find(unsigned int) const ;
     void remove(Node<Elem>&) ; // KO
-    Node<Elem>* GlobalRoot ;
   private :
-
+    Node<Elem>* GlobalRoot ;
 };
 
 template <typename Elem>
@@ -100,7 +99,7 @@ Node<Elem>* BST<Elem>::getPreviousNode( Node<Elem>* node) const {
 }
 
 template <typename Elem>
-void BST<Elem>::insert(int i,Elem newElem) {
+void BST<Elem>::insert(unsigned i,Elem newElem) {
   Node<Elem>* newNode = new Node<Elem>(i,newElem) ;
   Node<Elem>* currentNode = getRootVal() ;
   if (currentNode == nullptr) {
@@ -134,7 +133,7 @@ void BST<Elem>::insert(int i,Elem newElem) {
   fixNextPrevious(getRootVal()) ;
 }
 template <typename Elem>
-Elem BST<Elem>::find(int index) const {
+Elem BST<Elem>::find(unsigned int index) const {
   Node<Elem>* currentNode = getRootVal() ;
   while (currentNode != nullptr && currentNode->getInfoIndex() != index) {
     if (index < currentNode->getInfoIndex() ) {
@@ -161,7 +160,7 @@ void BST<Elem>::fixNextPrevious(Node<Elem>* currentNode) const {
 
   currentNode->setNext(getNextNode(currentNode)) ;
   currentNode->setPrevious(getPreviousNode(currentNode)) ;
-  //std::cout <<  currentNode->getInfoIndex() << ":" << currentNode->getInfoValue() <<std::endl  ;
+
 
   if (currentNode->getRightChild() != nullptr) {
     fixNextPrevious(currentNode->getRightChild()) ;
@@ -197,20 +196,16 @@ class BST<Elem>::iterator {
   iterator(const iterator&) = default ;
   iterator& operator=(const iterator&) = default;
   inline iterator& operator++ () ;
-  // Advance the iterator to the next element.
-  // Return a reference to yourself.
+  // Advance the iterator to the next element. Return a reference to yourself.
   inline iterator& operator-- () ;
   inline iterator operator++ (int);
-  // Advance the iterator. But return the
-  // original value.
+  // Advance the iterator. But return the original value.
   inline iterator operator-- (int);
   inline Elem operator* () const;
-  // Return a reference to the node
-  // That the current iterator represents.
+  // Return a reference to the node that the current iterator represents.
   inline bool operator== (const iterator&) const ;
   inline bool operator!= (const iterator&) const ;
-  // Check if two iterators represent
-  // the same node (or end). return true
+  // Check if two iterators represent the same node (or end). return true
   // if they do not (its not equal).
 
 };
@@ -264,7 +259,5 @@ template <typename Elem>
 bool BST<Elem>::iterator::operator!=(const iterator& other) const {
   return !operator==(other) ;
 }
-
-
 
 #endif
