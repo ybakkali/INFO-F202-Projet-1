@@ -8,43 +8,65 @@ class BST {
   public :
     BST();
     virtual ~BST() ;
+    class iterator ;
     BST(const BST<Elem>&) = default ;
     BST<Elem>& operator=(const BST<Elem>&) = default ;
-    typename BST<Elem>::iterator begin() const;
+
+
+    typename BST<Elem>::iterator begin () {return iterator(this,First);}
     // returns an iterator to the first element.
-    typename BST<Elem>::iterator end() const ;
+    typename BST<Elem>::iterator end ()   {return iterator(this,Last);}
     // returns an iterator to the one past the last element.
     // when an iterator is incremented passed the end of the container
     // it should compare equal to the iterator returned by this call.
-
-    class iterator ;
   protected :
     void setRootVal(Node<Elem>*) ;
     Node<Elem>* getRootVal() const ;
     Node<Elem>* getGlobalRoot( Node<Elem>*) const ;
-    Node<Elem>* getNextNode( Node<Elem>*) const ;
-    Node<Elem>* getPreviousNode( Node<Elem>*) const ;
+    Node<Elem>* getNext( Node<Elem>*) const ;
+    Node<Elem>* getPrevious( Node<Elem>*) const ;
+    Node<Elem>* getFirst() const;
+    Node<Elem>* getLast() const ;
     void fixNextPrevious(Node<Elem>*) const ;
     void insert(unsigned int,Elem) ;
     Elem find(unsigned int) const ;
     void remove(Node<Elem>&) ; // KO
   private :
-    Node<Elem>* GlobalRoot ;
+    Node<Elem>* BinarySearchTree ;
+    Node<Elem>* First ;   // Pointer to first item
+    Node<Elem>* Last ;    // Pointer to next field of last item
 };
 
 template <typename Elem>
-BST<Elem>::BST() : GlobalRoot(nullptr) {}
+BST<Elem>::BST() : BinarySearchTree(nullptr) , First(nullptr) , Last(nullptr) {}
 
 template <typename Elem>
 BST<Elem>::~BST() {}
 
 template <typename Elem>
+ Node<Elem>* BST<Elem>::getFirst() const {
+  Node<Elem>* currentNode = getRootVal() ;
+  while (currentNode->getLeftChild() != nullptr){
+    currentNode = currentNode->getLeftChild() ;
+  }
+  return currentNode ;
+}
+template <typename Elem>
+Node<Elem>* BST<Elem>::getLast() const {
+  Node<Elem>* currentNode = getRootVal() ;
+  while (currentNode->getLeftChild() != nullptr){
+    currentNode = currentNode->getLeftChild() ;
+  }
+  return currentNode->getLeftChild() ;
+}
+
+template <typename Elem>
 Node<Elem>* BST<Elem>::getRootVal() const {
-  return GlobalRoot ;
+  return BinarySearchTree ;
 }
 template <typename Elem>
 void BST<Elem>::setRootVal(Node<Elem>* root) {
-  GlobalRoot = root ;
+  BinarySearchTree = root ;
 }
 template <typename Elem>
 Node<Elem>* BST<Elem>::getGlobalRoot( Node<Elem>* node) const {
@@ -58,7 +80,7 @@ Node<Elem>* BST<Elem>::getGlobalRoot( Node<Elem>* node) const {
 }
 
 template <typename Elem>
-Node<Elem>* BST<Elem>::getNextNode( Node<Elem>* node) const {
+Node<Elem>* BST<Elem>::getNext( Node<Elem>* node) const {
 
   if (node->getRightChild() != nullptr ) {
     Node<Elem>* Next = node->getRightChild() ;
@@ -79,7 +101,7 @@ Node<Elem>* BST<Elem>::getNextNode( Node<Elem>* node) const {
 }
 
 template <typename Elem>
-Node<Elem>* BST<Elem>::getPreviousNode( Node<Elem>* node) const {
+Node<Elem>* BST<Elem>::getPrevious( Node<Elem>* node) const {
   if (node->getLeftChild() != nullptr ) {
     Node<Elem>* Previous = node->getLeftChild() ;
     while (Previous->getRightChild() != nullptr ) {
@@ -130,7 +152,9 @@ void BST<Elem>::insert(unsigned i,Elem newElem) {
       nodeCopy->setRightChild(newNode) ;
     }
   }
-  fixNextPrevious(getRootVal()) ;
+  First = getFirst() ;
+  Last =  getLast() ;
+  //fixNextPrevious(getRootVal()) ;
 }
 template <typename Elem>
 Elem BST<Elem>::find(unsigned int index) const {
@@ -158,8 +182,8 @@ void BST<Elem>::fixNextPrevious(Node<Elem>* currentNode) const {
     fixNextPrevious(currentNode->getLeftChild()) ;
   }
 
-  currentNode->setNext(getNextNode(currentNode)) ;
-  currentNode->setPrevious(getPreviousNode(currentNode)) ;
+  currentNode->setNext(getNext(currentNode)) ;
+  currentNode->setPrevious(getPrevious(currentNode)) ;
 
 
   if (currentNode->getRightChild() != nullptr) {
@@ -168,30 +192,15 @@ void BST<Elem>::fixNextPrevious(Node<Elem>* currentNode) const {
 }
 
 template <typename Elem>
-typename BST<Elem>::iterator BST<Elem>::begin() const {
-  Node<Elem>* currentNode = getRootVal() ;
-  while (currentNode->getLeftChild() != nullptr){
-    currentNode = currentNode->getLeftChild() ;
-  }
-  return iterator(currentNode) ;
-}
-template <typename Elem>
-typename BST<Elem>::iterator BST<Elem>::end() const {
-  Node<Elem>* currentNode = getRootVal() ;
-  while (currentNode->getLeftChild() != nullptr){
-    currentNode = currentNode->getLeftChild() ;
-  }
-  return iterator(currentNode->getLeftChild()) ;
-}
-template <typename Elem>
 class BST<Elem>::iterator {
 
   private :
   friend class BST;
+  BST<Elem>* BinaryTree ;
   Node<Elem>* currentNode ;
   public :
   iterator() ;
-  iterator(Node<Elem>*) ;
+  iterator(BST<Elem>*,Node<Elem>*) ;
   ~iterator() ;
   iterator(const iterator&) = default ;
   iterator& operator=(const iterator&) = default;
@@ -211,37 +220,37 @@ class BST<Elem>::iterator {
 };
 
 template <typename Elem>
-BST<Elem>::iterator::iterator() : currentNode(nullptr) {}
+BST<Elem>::iterator::iterator() : BinaryTree(nullptr),currentNode(nullptr) {}
 
 template <typename Elem>
-BST<Elem>::iterator::iterator(Node<Elem>* node): currentNode(node) {}
+BST<Elem>::iterator::iterator(BST<Elem>* bst,Node<Elem>* node): BinaryTree(bst), currentNode(node) {}
 
 template <typename Elem>
 BST<Elem>::iterator::~iterator() {}
 
 template <typename Elem>
 typename BST<Elem>::iterator& BST<Elem>::iterator::operator++() {
-  currentNode = currentNode->getNext() ;
+  currentNode = BinaryTree->getNext(currentNode) ;
   return *this ;
 }
 
 template <typename Elem>
 typename BST<Elem>::iterator& BST<Elem>::iterator::operator--() {
-  currentNode = currentNode->getPrevious() ;
+  currentNode = BinaryTree->getPrevious(currentNode) ;
   return *this ;
 }
 
 template <typename Elem>
 typename BST<Elem>::iterator BST<Elem>::iterator::operator++(int) {
   iterator p(*this) ;
-  currentNode = currentNode->getNext() ;
+  currentNode = BinaryTree->getNext(currentNode) ;
   return p ;
 }
 
 template <typename Elem>
 typename BST<Elem>::iterator BST<Elem>::iterator::operator--(int) {
   iterator p(*this) ;
-  currentNode = currentNode->getPrevious() ;
+  currentNode = BinaryTree->getPrevious(currentNode) ;
   return p ;
 }
 

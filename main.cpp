@@ -2,7 +2,7 @@
 
 int main() {
 
-  SparseVector<int> V(40) ;
+  SparseVector<int> V(10) ;
   /*
   for (int i = 0 ; i < 10 ; ++i  ) {
     int x ;

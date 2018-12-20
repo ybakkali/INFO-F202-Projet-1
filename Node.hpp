@@ -2,135 +2,112 @@
 #define  _NODE_H_
 #include "Info.hpp"
 
-template <typename Elem>
+template <typename U>
 class Node {
 
   private :
-    Info<Elem> info ;
-    Node<Elem> *Father ;
-    Node<Elem> *RightChild ;
-    Node<Elem> *LeftChild ;
-    Node<Elem> *Next ;
-    Node<Elem> *Previous ;
+    Info<U> info ;
+    Node<U> *Father ;
+    Node<U> *RightChild ;
+    Node<U> *LeftChild ;
   public :
-    Node(unsigned int,Elem) ;
-    Node(const Node<Elem>& ) ;
-    Node(const Node<Elem>&& ) = default ;
+    Node(unsigned int,U) ;
+    Node(const Node<U>& ) ;
+    Node(Node<U>&& ) = default ;
     ~Node() ;
-    inline Node<Elem>& operator= (const Node<Elem>& ) ;
-    inline Node<Elem>& operator= (Node<Elem>&& ) = default ; 
-    inline bool operator==(Node<Elem>& ) const ;
-    inline bool operator!=(Node<Elem>& ) const ;
-    inline bool operator<(const Node<Elem>& ) const ;
+    inline Node<U>& operator= (const Node<U>& ) ;
+    inline Node<U>& operator= (Node<U>&& ) = default ;
+    inline bool operator==(Node<U>& ) const ;
+    inline bool operator!=(Node<U>& ) const ;
+    inline bool operator<(const Node<U>& ) const ;
     //Getters
     unsigned int getInfoIndex() const ;
-    Elem getInfoValue() const ;
-    Node<Elem>* getFather() const ;
-    Node<Elem>* getRightChild() const ;
-    Node<Elem>* getLeftChild() const ;
-    Node<Elem>* getNext() const ;
-    Node<Elem>* getPrevious() const ;
+    U getInfoValue() const ;
+    Node<U>* getFather() const ;
+    Node<U>* getRightChild() const ;
+    Node<U>* getLeftChild() const ;
     //Setters
     void setInfoIndex(int)  ;
-    void setInfoValue(Elem)  ;
-    void setFather(Node<Elem>*) ;
-    void setRightChild(Node<Elem>*) ;
-    void setLeftChild(Node<Elem>*) ;
-    void setNext(Node<Elem>*) ;
-    void setPrevious(Node<Elem>*) ;
+    void setInfoValue(U)  ;
+    void setFather(Node<U>*) ;
+    void setRightChild(Node<U>*) ;
+    void setLeftChild(Node<U>*) ;
     void removeValue() ; // KO
 };
 
-template <typename Elem>
-Node<Elem>::Node(unsigned i,Elem value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr),Next(nullptr),Previous(nullptr){}
+template <typename U>
+Node<U>::Node(unsigned i,U value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr){}
 
-template <typename Elem>
-Node<Elem>::Node(const Node<Elem>& other) : info(other.info) , Father(other.Father),RightChild(other.RightChild),LeftChild(other.LeftChild),Next(other.Next),Previous(other.Previous) {}
+template <typename U>
+Node<U>::Node(const Node<U>& other) : info(other.info) , Father(other.Father),RightChild(other.RightChild),LeftChild(other.LeftChild) {}
 
-template <typename Elem>
-Node<Elem>::~Node(){}
+template <typename U>
+Node<U>::~Node(){}
 
-template <typename Elem>
-Node<Elem>& Node<Elem>::operator= (const Node<Elem>& other) {
+template <typename U>
+Node<U>& Node<U>::operator= (const Node<U>& other) {
   if (this != &other) {
     info = other.info ;
     Father = other.Father ;
     RightChild = other.RightChild ;
     LeftChild = other.LeftChild ;
-    Next = other.Next ;
-    Previous = other.Previous ;
   }
   return *this ;
 }
-template <typename Elem>
-bool Node<Elem>::operator==(Node<Elem>& other) const {
+template <typename U>
+bool Node<U>::operator==(Node<U>& other) const {
   return info == other.info ;
 }
-template <typename Elem>
-bool Node<Elem>::operator!=(Node<Elem>& other) const {
+template <typename U>
+bool Node<U>::operator!=(Node<U>& other) const {
   return !operator==(other) ;
 }
-template <typename Elem>
-bool Node<Elem>::operator<(const Node<Elem>& other) const {
+template <typename U>
+bool Node<U>::operator<(const Node<U>& other) const {
   return info < other.info ;
 }
-template <typename Elem>
-void Node<Elem>::setInfoIndex(int i) {
+template <typename U>
+void Node<U>::setInfoIndex(int i) {
   info.setIndex(i) ;
 }
-template <typename Elem>
-void Node<Elem>::setInfoValue(Elem value) {
+template <typename U>
+void Node<U>::setInfoValue(U value) {
   info.setValue(value) ;
 }
-template <typename Elem>
-Elem Node<Elem>::getInfoValue() const {
+template <typename U>
+U Node<U>::getInfoValue() const {
   return info.getValue() ;
 }
-template <typename Elem>
-unsigned int Node<Elem>::getInfoIndex() const {
+template <typename U>
+unsigned int Node<U>::getInfoIndex() const {
   return info.getIndex() ;
 }
-template <typename Elem>
-Node<Elem>* Node<Elem>::getFather() const {
+template <typename U>
+Node<U>* Node<U>::getFather() const {
   return Father ;
 }
-template <typename Elem>
-Node<Elem>* Node<Elem>::getRightChild() const {
+template <typename U>
+Node<U>* Node<U>::getRightChild() const {
   return RightChild ;
 }
-template <typename Elem>
-Node<Elem>* Node<Elem>::getLeftChild() const {
+template <typename U>
+Node<U>* Node<U>::getLeftChild() const {
   return LeftChild ;
 }
-template <typename Elem>
-void Node<Elem>::setFather(Node<Elem>* newFather) {
+template <typename U>
+void Node<U>::setFather(Node<U>* newFather) {
    Father = newFather ;
 }
-template <typename Elem>
-void Node<Elem>::setRightChild(Node<Elem>* newRightChild) {
+template <typename U>
+void Node<U>::setRightChild(Node<U>* newRightChild) {
    RightChild = newRightChild ;
 }
-template <typename Elem>
-void Node<Elem>::setLeftChild(Node<Elem>* newLeftChild) {
+template <typename U>
+void Node<U>::setLeftChild(Node<U>* newLeftChild) {
    LeftChild = newLeftChild ;
 }
-template <typename Elem>
-void Node<Elem>::removeValue() {
+template <typename U>
+void Node<U>::removeValue() {
 }
-template <typename Elem>
-void Node<Elem>::setNext(Node<Elem>* newNext) {
-   Next = newNext ;
-}
-template <typename Elem>
-void Node<Elem>::setPrevious(Node<Elem>* newPrevious) {
-   Previous = newPrevious ;
-}
-template <typename Elem>
-Node<Elem>* Node<Elem>::getNext() const {
-  return Next ;
-}
-template <typename Elem>
-Node<Elem>* Node<Elem>::getPrevious() const {
-  return Previous ;
-}
+
 #endif

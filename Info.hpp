@@ -2,42 +2,42 @@
 #define  _INFO_H_
 
 
-template <typename Elem>
+template <typename T>
 class Info {
 
   private :
     unsigned int Index ;
-    Elem Value ;
+    T Value ;
   public :
-    Info(unsigned int,Elem) ;
-    Info(const Info<Elem>& ) ;
-    Info(Info<Elem>&&) = default;
+    Info(unsigned int,T) ;
+    Info(const Info<T>& ) ;
+    Info(Info<T>&&) = default;
     ~Info() ;
-    inline Info<Elem>& operator= (const Info<Elem>&) ;
-    inline Info<Elem>& operator= (Info<Elem>&&) = default ;
-    inline bool operator==(const Info<Elem>&) const ;
-    inline bool operator!=(const Info<Elem>&) const ;
-    inline bool operator<(const Info<Elem>&) const  ;
+    inline Info<T>& operator= (const Info<T>&) ;
+    inline Info<T>& operator= (Info<T>&&) = default ;
+    inline bool operator==(const Info<T>&) const ;
+    inline bool operator!=(const Info<T>&) const ;
+    inline bool operator<(const Info<T>&) const  ;
 
     //Setters
     void setIndex(unsigned int) ;
-    void setValue(Elem);
+    void setValue(T);
     //Getters
     unsigned int getIndex() const ;
-    Elem getValue() const ;
+    T getValue() const ;
 };
 
-template <typename Elem>
-Info<Elem>::Info(unsigned i,Elem value) : Index(i) , Value(value) {}
+template <typename T>
+Info<T>::Info(unsigned i,T value) : Index(i) , Value(value) {}
 
-template <typename Elem>
-Info<Elem>::Info(const Info<Elem>& other ) : Index(other.getIndex()) , Value(other.getValue()) {}
+template <typename T>
+Info<T>::Info(const Info<T>& other ) : Index(other.getIndex()) , Value(other.getValue()) {}
 
-template <typename Elem>
-Info<Elem>::~Info() {}
+template <typename T>
+Info<T>::~Info() {}
 
-template <typename Elem>
-Info<Elem>& Info<Elem>::operator= (const Info<Elem>& other) {
+template <typename T>
+Info<T>& Info<T>::operator= (const Info<T>& other) {
   if (this != &other) {
     Index = other.getIndex() ;
     Value = other.getValue() ;
@@ -45,32 +45,32 @@ Info<Elem>& Info<Elem>::operator= (const Info<Elem>& other) {
   return *this ;
 }
 
-template <typename Elem>
-bool Info<Elem>::operator< (const Info<Elem>& other) const {
+template <typename T>
+bool Info<T>::operator< (const Info<T>& other) const {
   return this->getIndex() < other.getIndex() ;
 }
-template <typename Elem>
-bool Info<Elem>::operator==(const Info<Elem>& other) const {
+template <typename T>
+bool Info<T>::operator==(const Info<T>& other) const {
   return this->getIndex() == other.getIndex() ;
 }
-template <typename Elem>
-bool Info<Elem>::operator!=(const Info<Elem>&  other) const {
+template <typename T>
+bool Info<T>::operator!=(const Info<T>&  other) const {
   return !operator==(other) ;
 }
-template <typename Elem>
-void Info<Elem>::setIndex(unsigned int i) {
+template <typename T>
+void Info<T>::setIndex(unsigned int i) {
   Index = i ;
 }
-template <typename Elem>
-void Info<Elem>::setValue(Elem value) {
+template <typename T>
+void Info<T>::setValue(T value) {
   Value = value ;
 }
-template <typename Elem>
-unsigned int Info<Elem>::getIndex() const {
+template <typename T>
+unsigned int Info<T>::getIndex() const {
   return Index ;
 }
-template <typename Elem>
-Elem Info<Elem>::getValue() const {
+template <typename T>
+T Info<T>::getValue() const {
   return Value ;
 }
 

@@ -11,32 +11,43 @@ class SparseVector : public Vector<Elem> , public BST<Elem> {
     const Elem get (unsigned int) const noexcept override ;
     void set (unsigned int,Elem) noexcept override ;
     unsigned int size() const noexcept override;
-  private :
-    unsigned int VectorSize ;
 };
 
 template <typename Elem>
-SparseVector<Elem>::SparseVector(unsigned int size) : Vector<Elem>() , VectorSize(size) {}
+SparseVector<Elem>::SparseVector(unsigned int size) : Vector<Elem>(size),BST<Elem>() {}
 
 template <typename Elem>
 unsigned int SparseVector<Elem>::size() const noexcept {
-  return VectorSize ;
+  return this->VectorSize ;
 }
 
 template <typename Elem>
 const Elem SparseVector<Elem>::get(unsigned int index) const noexcept {
-  if (index >= size()) {
-    throw std::out_of_range("Index out of range") ;
-  }
-  return this->find(index) ;
+    try {
+        if (index >= size()) {
+            throw std::out_of_range("Index out of range") ;
+        }
+    }
+    catch (const std::exception& err) {
+      std::cerr << "*** Error: " << err.what() << " ***" << std::endl;
+    }
+    return this->find(index) ;
 }
 
 template <typename Elem>
 void SparseVector<Elem>::set(unsigned int index,Elem value) noexcept{
-  if (index >= size()) {
-    throw std::out_of_range("Index out of range") ;
-  }
-  this->insert(index,value) ;
+
+        try {
+            if (index >= size()) {
+                throw std::out_of_range("Index out of range") ;
+            }
+            else {
+                this->insert(index,value) ;
+            }
+        }
+        catch (const std::exception& err) {
+      std::cerr << "*** Error: " << err.what() << " ***" << std::endl;
+    }
 }
 
 
