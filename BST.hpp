@@ -52,7 +52,9 @@ BST<Elem>::BST(const BST<Elem>& other) : BinarySearchTree(other.BinarySearchTree
 }
 
 template <typename Elem>
-BST<Elem>::~BST() {}
+BST<Elem>::~BST() {
+    delete this->BinarySearchTree ;
+}
 
 template <typename Elem>
 Node<Elem>* BST<Elem>::getFirst() const {

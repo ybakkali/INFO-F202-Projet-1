@@ -52,7 +52,15 @@ Node<U>::Node(const Node<U>& other) : info(other.info),Father(other.Father),Righ
 }
 
 template <typename U>
-Node<U>::~Node(){}
+Node<U>::~Node(){
+
+    if (this->LeftChild) {
+        delete this->LeftChild ;
+    }
+    if (this->RightChild) {
+        delete this->RightChild ;
+    }
+}
 
 template <typename U>
 Node<U>& Node<U>::operator=(const Node<U>& other) {
