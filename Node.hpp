@@ -27,7 +27,6 @@ class Node {
     Node<U>* getRightChild() const ;
     Node<U>* getLeftChild() const ;
     //Setters
-    void setInfoIndex(int)  ;
     void setInfoValue(U)  ;
     void setFather(Node<U>*) ;
     void setRightChild(Node<U>*) ;
@@ -38,14 +37,14 @@ template <typename U>
 Node<U>::Node(unsigned i,U value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr){}
 
 template <typename U>
-Node<U>::Node(const Node<U>& other) : info(other.info),Father(nullptr),RightChild(nullptr),LeftChild(nullptr){
+Node<U>::Node(const Node<U>& other) : info(other.info),Father(other.Father),RightChild(nullptr),LeftChild(nullptr){
 
     if (other.RightChild) {
         Node<U>* r = new Node<U>(*other.RightChild) ;
         r->setFather(this);
         this->setRightChild(r);
     }
-    if (other.getLeftChild()) {
+    if (other.LeftChild) {
         Node<U>* l = new Node<U>(*other.LeftChild) ;
         l->setFather(this);
         this->setLeftChild(l);
@@ -56,12 +55,12 @@ template <typename U>
 Node<U>::~Node(){}
 
 template <typename U>
-Node<U>& Node<U>::operator= (const Node<U>& other) {
+Node<U>& Node<U>::operator=(const Node<U>& other) {
 
   if (this != &other) {
 
     info = other.info ;
-
+    Father = other.Father ;
     if (other.RightChild) {
         Node<U>* r = new Node<U> (*other.RightChild) ;
         r->setFather(this);
@@ -87,10 +86,7 @@ template <typename U>
 bool Node<U>::operator<(const Node<U>& other) const {
   return info < other.info ;
 }
-template <typename U>
-void Node<U>::setInfoIndex(int i) {
-  info.setIndex(i) ;
-}
+
 template <typename U>
 void Node<U>::setInfoValue(U value) {
   info.setValue(value) ;

@@ -9,16 +9,28 @@ class SparseVector : public Vector<Elem> , public BST<Elem> {
     SparseVector(unsigned int) ;
     SparseVector(const SparseVector&) ;
     ~SparseVector() = default;
+    SparseVector& operator= (const SparseVector&) ;
     const Elem get (unsigned int) const noexcept override ;
     void set (unsigned int,Elem) noexcept override ;
     unsigned int size() const noexcept override;
 };
 
 template <typename Elem>
-SparseVector<Elem>::SparseVector(unsigned int size) : Vector<Elem>(size),BST<Elem>() {}
+SparseVector<Elem>::SparseVector(unsigned int size) :
+                            Vector<Elem>(size),BST<Elem>() {}
 
 template <typename Elem>
-SparseVector<Elem>::SparseVector (const SparseVector<Elem>& other) : Vector<Elem>(other.VectorSize),BST<Elem>(other) {}
+SparseVector<Elem>::SparseVector(const SparseVector<Elem>& other) :
+                            Vector<Elem>(other.VectorSize),BST<Elem>(other) {}
+
+template <typename Elem>
+SparseVector<Elem>& SparseVector<Elem>::operator=(const SparseVector& other) {
+    if (this != &other) {
+        Vector<Elem>::operator=(other.VectorSize) ;
+        BST<Elem>::operator=(other) ;
+    }
+    return *this ;
+}
 
 template <typename Elem>
 unsigned int SparseVector<Elem>::size() const noexcept {
@@ -53,7 +65,6 @@ void SparseVector<Elem>::set(unsigned int index,Elem value) noexcept{
       std::cerr << "*** Error: " << err.what() << " ***" << std::endl;
     }
 }
-
 
 
 #endif

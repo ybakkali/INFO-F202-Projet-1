@@ -1,76 +1,69 @@
 #ifndef  _INFO_H_
 #define  _INFO_H_
 
-
-template <typename T>
+template <typename T,typename I = unsigned int>
 class Info {
 
   private :
-    unsigned int Index ;
+    I Index ;
     T Value ;
   public :
-    Info(unsigned int,T) ;
-    Info(const Info<T>& ) ;
-    Info(Info<T>&&) = default;
+    Info(I,T) ;
+    Info(const Info<T,I>&) ;
+    Info(Info<T,I>&&) = default;
     ~Info() ;
-    inline Info<T>& operator= (const Info<T>&) ;
-    inline Info<T>& operator= (Info<T>&&) = default ;
-    inline bool operator==(const Info<T>&) const ;
-    inline bool operator!=(const Info<T>&) const ;
-    inline bool operator<(const Info<T>&) const  ;
+    inline Info<T,I>& operator= (const Info<T,I>&) ;
+    inline Info<T,I>& operator= (Info<T,I>&&) = default ;
+    inline bool operator==(const Info<T,I>&) const ;
+    inline bool operator!=(const Info<T,I>&) const ;
+    inline bool operator<(const Info<T,I>&) const  ;
 
     //Setters
-    void setIndex(unsigned int) ;
     void setValue(T);
     //Getters
-    unsigned int getIndex() const ;
+    I getIndex() const ;
     T getValue() const ;
 };
 
-template <typename T>
-Info<T>::Info(unsigned int i,T value) : Index(i) , Value(value) {}
+template <typename T,typename I>
+Info<T,I>::Info(I i,T value) : Index(i) , Value(value) {}
 
-template <typename T>
-Info<T>::Info(const Info<T>& other) :   Index(other.Index),
-                                        Value(other.Value) {}
+template <typename T,typename I>
+Info<T,I>::Info(const Info<T,I>& other):Index(other.Index),Value(other.Value) {}
 
-template <typename T>
-Info<T>::~Info() {}
+template <typename T,typename I>
+Info<T,I>::~Info() {}
 
-template <typename T>
-Info<T>& Info<T>::operator= (const Info<T>& other) {
+template <typename T,typename I>
+Info<T,I>& Info<T,I>::operator= (const Info<T,I>& other) {
   if (this != &other) {
     Index = other.Index ;
     Value = other.Value ;
   }
   return *this ;
 }
-template <typename T>
-bool Info<T>::operator< (const Info<T>& other) const {
+template <typename T,typename I>
+bool Info<T,I>::operator< (const Info<T,I>& other) const {
   return this->Index < other.Index ;
 }
-template <typename T>
-bool Info<T>::operator==(const Info<T>& other) const {
+template <typename T,typename I>
+bool Info<T,I>::operator==(const Info<T,I>& other) const {
   return this->Index == other.Index ;
 }
-template <typename T>
-bool Info<T>::operator!=(const Info<T>&  other) const {
+template <typename T,typename I>
+bool Info<T,I>::operator!=(const Info<T,I>&  other) const {
   return !operator==(other) ;
 }
-template <typename T>
-void Info<T>::setIndex(unsigned int i) {
-  Index = i ;
-}
-template <typename T>
-void Info<T>::setValue(T value) {
+template <typename T,typename I>
+void Info<T,I>::setValue(T value) {
   Value = value ;
 }
-template <typename T>
-unsigned int Info<T>::getIndex() const {
+template <typename T,typename I>
+I Info<T,I>::getIndex() const {
   return Index ;
 }
-template <typename T>
-T Info<T>::getValue() const {
+template <typename T,typename I>
+T Info<T,I>::getValue() const {
   return Value ;
 }
 
