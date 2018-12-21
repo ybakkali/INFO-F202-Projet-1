@@ -12,11 +12,8 @@ class BST {
 
     class iterator ;
     typename BST<Elem>::iterator begin () {return iterator(this,getFirst());}
-    // returns an iterator to the first element.
     typename BST<Elem>::iterator end ()   {return iterator(this,getLast());}
-    // returns an iterator to the one past the last element.
-    // when an iterator is incremented passed the end of the container
-    // it should compare equal to the iterator returned by this call.
+
   protected :
     void setRootVal(Node<Elem>*) ;
     Node<Elem>* getRootVal() const ;
@@ -115,7 +112,6 @@ Node<Elem>* BST<Elem>::getNext( Node<Elem>* node) const {
     return Next ;
   }
 }
-
 template <typename Elem>
 Node<Elem>* BST<Elem>::getPrevious( Node<Elem>* node) const {
   if (node->getLeftChild() != nullptr ) {
@@ -206,18 +202,12 @@ class BST<Elem>::iterator {
   iterator(const iterator&) = default ;
   iterator& operator=(const iterator&) = default;
   inline iterator& operator++ () ;
-  // Advance the iterator to the next element. Return a reference to yourself.
   inline iterator& operator-- () ;
   inline iterator operator++ (int);
-  // Advance the iterator. But return the original value.
   inline iterator operator-- (int);
   inline Node<Elem>& operator* () const;
-  // Return a reference to the node that the current iterator represents.
   inline bool operator== (const iterator&) const ;
   inline bool operator!= (const iterator&) const ;
-  // Check if two iterators represent the same node (or end). return true
-  // if they do not (its not equal).
-
 };
 
 template <typename Elem>
