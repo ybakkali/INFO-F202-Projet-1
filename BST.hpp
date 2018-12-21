@@ -161,6 +161,7 @@ void BST<Elem>::insert(unsigned int i,Elem newElem) {
 
     if ( *newNode == *nodeCopy ) {
       nodeCopy->setInfoValue(newElem) ;
+      delete newNode ;
     }
     else if (*newNode < *nodeCopy ) {
       nodeCopy->setLeftChild(newNode) ;
