@@ -8,13 +8,13 @@ class Vector {
     public :
         Vector () = default;
         Vector (unsigned int size ) : VectorSize(size) {}
-        Vector (const Vector&) = default;
+        Vector (const Vector& other) : VectorSize(other.VectorSize) {}
         Vector (Vector&&) = default;
-        //virtual Vector& operator= (const Vector&) = default;
+        virtual ~Vector () = default;
+        virtual Vector& operator= (const Vector&) = default;
         Vector& operator= (Vector&&) = default;
         virtual const Elem get (unsigned int) const noexcept = 0;
         virtual void set (unsigned int,Elem) noexcept = 0;
-        virtual ~Vector () = default;
         virtual unsigned int size() const noexcept = 0;
 };
 

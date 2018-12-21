@@ -15,7 +15,7 @@ class Node {
     Node(const Node<U>& ) ;
     Node(Node<U>&& ) = default ;
     ~Node() ;
-    inline Node<U>& operator= (const Node<U>& ) ;
+    inline Node<U>& operator= (const Node<U>&) ;
     inline Node<U>& operator= (Node<U>&& ) = default ;
     inline bool operator==(Node<U>& ) const ;
     inline bool operator!=(Node<U>& ) const ;
@@ -32,25 +32,46 @@ class Node {
     void setFather(Node<U>*) ;
     void setRightChild(Node<U>*) ;
     void setLeftChild(Node<U>*) ;
-    void removeValue() ; // KO
 };
 
 template <typename U>
 Node<U>::Node(unsigned i,U value) :info(i,value) , Father(nullptr),RightChild(nullptr),LeftChild(nullptr){}
 
 template <typename U>
-Node<U>::Node(const Node<U>& other) : info(other.info) , Father(other.Father),RightChild(other.RightChild),LeftChild(other.LeftChild) {}
+Node<U>::Node(const Node<U>& other) : info(other.info),Father(nullptr),RightChild(nullptr),LeftChild(nullptr){
+
+    if (other.RightChild) {
+        Node<U>* r = new Node<U>(*other.RightChild) ;
+        r->setFather(this);
+        this->setRightChild(r);
+    }
+    if (other.getLeftChild()) {
+        Node<U>* l = new Node<U>(*other.LeftChild) ;
+        l->setFather(this);
+        this->setLeftChild(l);
+    }
+}
 
 template <typename U>
 Node<U>::~Node(){}
 
 template <typename U>
 Node<U>& Node<U>::operator= (const Node<U>& other) {
+
   if (this != &other) {
+
     info = other.info ;
-    Father = other.Father ;
-    RightChild = other.RightChild ;
-    LeftChild = other.LeftChild ;
+
+    if (other.RightChild) {
+        Node<U>* r = new Node<U> (*other.RightChild) ;
+        r->setFather(this);
+        this->setRightChild(r);
+    }
+    if (other.LeftChild) {
+        Node<U>* l = new Node<U> (*other.LeftChild) ;
+        l->setFather(this);
+        this->setLeftChild(l);
+    }
   }
   return *this ;
 }
@@ -105,9 +126,6 @@ void Node<U>::setRightChild(Node<U>* newRightChild) {
 template <typename U>
 void Node<U>::setLeftChild(Node<U>* newLeftChild) {
    LeftChild = newLeftChild ;
-}
-template <typename U>
-void Node<U>::removeValue() {
 }
 
 #endif

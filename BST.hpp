@@ -7,12 +7,12 @@ template <typename Elem>
 class BST {
   public :
     BST();
+    BST(const BST<Elem>&) ;
     virtual ~BST() ;
-    class iterator ;
-    BST(const BST<Elem>&) = default ;
+
     BST<Elem>& operator=(const BST<Elem>&) = default ;
 
-
+    class iterator ;
     typename BST<Elem>::iterator begin () {return iterator(this,First);}
     // returns an iterator to the first element.
     typename BST<Elem>::iterator end ()   {return iterator(this,Last);}
@@ -30,7 +30,6 @@ class BST {
     void fixNextPrevious(Node<Elem>*) const ;
     void insert(unsigned int,Elem) ;
     Elem find(unsigned int) const ;
-    void remove(Node<Elem>&) ; // KO
   private :
     Node<Elem>* BinarySearchTree ;
     Node<Elem>* First ;   // Pointer to first item
@@ -39,6 +38,12 @@ class BST {
 
 template <typename Elem>
 BST<Elem>::BST() : BinarySearchTree(nullptr) , First(nullptr) , Last(nullptr) {}
+
+template <typename Elem>
+BST<Elem>::BST(const BST<Elem>& other) : BinarySearchTree(nullptr) ,First(nullptr),Last(nullptr){
+    if (other.BinarySearchTree != nullptr)
+        this->BinarySearchTree = new Node<Elem> (*other.BinarySearchTree);
+}
 
 template <typename Elem>
 BST<Elem>::~BST() {}
@@ -210,7 +215,7 @@ class BST<Elem>::iterator {
   inline iterator operator++ (int);
   // Advance the iterator. But return the original value.
   inline iterator operator-- (int);
-  inline Elem operator* () const;
+  inline Node<Elem>* operator* () const;
   // Return a reference to the node that the current iterator represents.
   inline bool operator== (const iterator&) const ;
   inline bool operator!= (const iterator&) const ;
@@ -255,8 +260,8 @@ typename BST<Elem>::iterator BST<Elem>::iterator::operator--(int) {
 }
 
 template <typename Elem>
-Elem BST<Elem>::iterator::operator*() const{
-  return currentNode->getInfoValue() ;
+Node<Elem>* BST<Elem>::iterator::operator*() const{
+  return currentNode ;
 }
 
 template <typename Elem>

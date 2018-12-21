@@ -1,36 +1,42 @@
 #include "SparseVector.hpp"
 
+template <typename V>
+void Parcours(Vector<V>& v) {
+    for (unsigned int i = 0 ; i < v.size() ; i++) {
+        std::cout << "Vecteur [" << i << "] = " << v.get(i) << std::endl;
+    }
+}
+
+template <typename K>
+void ParcoursT(BST<K>& tree) {
+    std::cout << "Index        Value" << std::endl;
+    for (typename BST<K>::iterator it = tree.begin() ; it != tree.end() ; ++it) {
+        std::cout << "( " << (*it)->getInfoIndex() << "     ,    " << (*it)->getInfoValue() << " )" << std::endl;
+    }
+}
+
 int main() {
 
-  SparseVector<int> V(10) ;
-  /*
-  for (int i = 0 ; i < 10 ; ++i  ) {
-    int x ;
-    if (i%2 == 0) { x= i*4 ; }
-    else {x=i+4 ;}
-    V.set(x,i);
-  }
-  */
+  Node<int> nd(1,10);
+  Node<int> nn(2,111) ;
+  nd.setLeftChild(&nn);
+  Node<int> tmp(nd);
+  std::cout<< nd.getLeftChild() << std::endl ;
+  std::cout<< nd.getInfoValue() << std::endl ;
+  std::cout<< tmp.getLeftChild() << std::endl ;
+  SparseVector<int> V(40) ;
+  SparseVector<int> P(V) ;
   V.set(10,5) ;
   V.set(15,60) ;
   V.set(5,11) ;
   V.set(30,0) ;
   V.set(3,19) ;
-  std::cout << "Value " << V.get(7) << std::endl ;
-  std::cout << "Value " << V.get(10) << std::endl ;
-  std::cout << "Value " << V.get(3) << std::endl ;
   V.set(3,100) ;
-  std::cout << "Value " << V.get(3) << std::endl ;
-  SparseVector<int>::iterator it;
+  std::cout<< "V" << std::endl ;
+  ParcoursT(V) ;
+  std::cout<< "P" << std::endl ;
+  ParcoursT(P) ;
+  //Parcours(V) ;
 
-  for(it = V.begin(); it != V.end(); it++) {
-      std::cout << *it << std::endl;
-      /*
-      if (it != V.begin()) {
-        it-- ;
-        std::cout << *it << std::endl;
-      }
-      */
-  }
   return 0;
 }

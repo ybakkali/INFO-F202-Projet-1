@@ -6,7 +6,8 @@
 template <typename Elem>
 class SparseVector : public Vector<Elem> , public BST<Elem> {
   public :
-    explicit SparseVector(unsigned int) ;
+    SparseVector(unsigned int) ;
+    SparseVector(const SparseVector&) ;
     ~SparseVector() = default;
     const Elem get (unsigned int) const noexcept override ;
     void set (unsigned int,Elem) noexcept override ;
@@ -15,6 +16,9 @@ class SparseVector : public Vector<Elem> , public BST<Elem> {
 
 template <typename Elem>
 SparseVector<Elem>::SparseVector(unsigned int size) : Vector<Elem>(size),BST<Elem>() {}
+
+template <typename Elem>
+SparseVector<Elem>::SparseVector (const SparseVector<Elem>& other) : Vector<Elem>(other.VectorSize),BST<Elem>(other) {}
 
 template <typename Elem>
 unsigned int SparseVector<Elem>::size() const noexcept {

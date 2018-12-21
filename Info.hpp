@@ -28,10 +28,11 @@ class Info {
 };
 
 template <typename T>
-Info<T>::Info(unsigned i,T value) : Index(i) , Value(value) {}
+Info<T>::Info(unsigned int i,T value) : Index(i) , Value(value) {}
 
 template <typename T>
-Info<T>::Info(const Info<T>& other ) : Index(other.getIndex()) , Value(other.getValue()) {}
+Info<T>::Info(const Info<T>& other) :   Index(other.Index),
+                                        Value(other.Value) {}
 
 template <typename T>
 Info<T>::~Info() {}
@@ -39,19 +40,18 @@ Info<T>::~Info() {}
 template <typename T>
 Info<T>& Info<T>::operator= (const Info<T>& other) {
   if (this != &other) {
-    Index = other.getIndex() ;
-    Value = other.getValue() ;
+    Index = other.Index ;
+    Value = other.Value ;
   }
   return *this ;
 }
-
 template <typename T>
 bool Info<T>::operator< (const Info<T>& other) const {
-  return this->getIndex() < other.getIndex() ;
+  return this->Index < other.Index ;
 }
 template <typename T>
 bool Info<T>::operator==(const Info<T>& other) const {
-  return this->getIndex() == other.getIndex() ;
+  return this->Index == other.Index ;
 }
 template <typename T>
 bool Info<T>::operator!=(const Info<T>&  other) const {
