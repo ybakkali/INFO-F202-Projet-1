@@ -10,10 +10,8 @@ class Info {
   public :
     Info(I,T) ;
     Info(const Info<T,I>&) ;
-    Info(Info<T,I>&&) = default;
     ~Info() ;
     inline Info<T,I>& operator= (const Info<T,I>&) ;
-    inline Info<T,I>& operator= (Info<T,I>&&) = default ;
     inline bool operator==(const Info<T,I>&) const ;
     inline bool operator!=(const Info<T,I>&) const ;
     inline bool operator<(const Info<T,I>&) const  ;

@@ -2,6 +2,7 @@
 #define  _SPARSEVECTOR_H_
 #include "BST.hpp"
 #include "Vector.hpp"
+#include <stdexcept>
 
 template <typename Elem>
 class SparseVector : public Vector<Elem> , public BST<Elem> {
@@ -39,30 +40,22 @@ unsigned int SparseVector<Elem>::size() const noexcept {
 
 template <typename Elem>
 const Elem SparseVector<Elem>::get(unsigned int index) const noexcept {
-    try {
-        if (index >= size()) {
-            throw std::out_of_range("Index out of range") ;
-        }
+
+    if (index >= size()) {
+        throw std::invalid_argument("Search : index out of range") ;
     }
-    catch (const std::exception& err) {
-      std::cerr << "*** Error: " << err.what() << " ***" << std::endl;
-    }
+
     return this->find(index) ;
 }
 
 template <typename Elem>
 void SparseVector<Elem>::set(unsigned int index,Elem value) noexcept{
 
-        try {
-            if (index >= size()) {
-                throw std::out_of_range("Index out of range") ;
-            }
-            else {
-                this->insert(index,value) ;
-            }
-        }
-        catch (const std::exception& err) {
-      std::cerr << "*** Error: " << err.what() << " ***" << std::endl;
+    if (index >= size()) {
+        throw std::invalid_argument("Insert : index out of range") ;
+    }
+    else {
+        this->insert(index,value) ;
     }
 }
 

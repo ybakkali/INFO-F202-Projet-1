@@ -13,16 +13,13 @@ class Node {
   public :
     Node(unsigned int,U) ;
     Node(const Node<U>& ) ;
-    Node(Node<U>&& ) = default ;
     ~Node() ;
-    inline Node<U>& operator= (const Node<U>&) ;
-    inline Node<U>& operator= (Node<U>&& ) = default ;
+    Node<U>& operator=(const Node<U>&) ;
     inline bool operator==(Node<U>& ) const ;
     inline bool operator!=(Node<U>& ) const ;
     inline bool operator<(const Node<U>& ) const ;
     //Getters
-    unsigned int getInfoIndex() const ;
-    U getInfoValue() const ;
+    Info<U> getInfo() const ;
     Node<U>* getFather() const ;
     Node<U>* getRightChild() const ;
     Node<U>* getLeftChild() const ;
@@ -100,12 +97,8 @@ void Node<U>::setInfoValue(U value) {
   info.setValue(value) ;
 }
 template <typename U>
-U Node<U>::getInfoValue() const {
-  return info.getValue() ;
-}
-template <typename U>
-unsigned int Node<U>::getInfoIndex() const {
-  return info.getIndex() ;
+Info<U> Node<U>::getInfo() const {
+  return info ;
 }
 template <typename U>
 Node<U>* Node<U>::getFather() const {

@@ -1,7 +1,6 @@
 #ifndef  _BST_H_
 #define  _BST_H_
 #include "Node.hpp"
-#include <iostream>
 
 template <typename Elem>
 class BST {
@@ -9,14 +8,7 @@ class BST {
     BST();
     BST(const BST<Elem>&) ;
     virtual ~BST() ;
-
-    BST<Elem>& operator=(const BST<Elem>& other) {
-
-        if (this != &other) {
-            this->root = other->root ;
-        }
-        return *this;
-    }
+    BST<Elem>& operator=(const BST<Elem>&) ;
 
     class iterator ;
     typename BST<Elem>::iterator begin () {return iterator(this,getFirst());}
@@ -36,24 +28,32 @@ class BST {
     void insert(unsigned int,Elem) ;
     Elem find(unsigned int) const ;
   private :
-    Node<Elem>* BinarySearchTree ;
+    Node<Elem>* root ;
 };
 
 template <typename Elem>
-BST<Elem>::BST() : BinarySearchTree(nullptr) {}
+BST<Elem>::BST() : root(nullptr) {}
 
 template <typename Elem>
-BST<Elem>::BST(const BST<Elem>& other) : BinarySearchTree(other.BinarySearchTree) {
+BST<Elem>::BST(const BST<Elem>& other) : root(other.root) {
 
-    if (other.BinarySearchTree != nullptr) {
-
-        this->BinarySearchTree = new Node<Elem>(*other.BinarySearchTree);
+    if (other.root != nullptr) {
+        this->root = new Node<Elem>(*other.root);
     }
 }
 
 template <typename Elem>
+BST<Elem>& BST<Elem>::operator=(const BST<Elem>& other) {
+
+    if (this != &other) {
+        this->root = other->root ;
+    }
+    return *this;
+}
+
+template <typename Elem>
 BST<Elem>::~BST() {
-    delete this->BinarySearchTree ;
+    delete this->root ;
 }
 
 template <typename Elem>
@@ -77,11 +77,11 @@ Node<Elem>* BST<Elem>::getLast() const {
 
 template <typename Elem>
 Node<Elem>* BST<Elem>::getRootVal() const {
-  return BinarySearchTree ;
+  return root ;
 }
 template <typename Elem>
-void BST<Elem>::setRootVal(Node<Elem>* root) {
-  BinarySearchTree = root ;
+void BST<Elem>::setRootVal(Node<Elem>* Root) {
+  root = Root ;
 }
 template <typename Elem>
 Node<Elem>* BST<Elem>::getGlobalRoot(Node<Elem>* node) const {
@@ -175,8 +175,8 @@ template <typename Elem>
 Elem BST<Elem>::find(unsigned int index) const {
 
   Node<Elem>* currentNode = getRootVal() ;
-  while (currentNode != nullptr && currentNode->getInfoIndex() != index) {
-    if (index < currentNode->getInfoIndex() ) {
+  while (currentNode != nullptr && currentNode->getInfo().getIndex() != index) {
+    if (index < currentNode->getInfo().getIndex() ) {
       currentNode = currentNode->getLeftChild() ;
     }
     else {
@@ -188,7 +188,7 @@ Elem BST<Elem>::find(unsigned int index) const {
     return false ;
   }
   else {
-    return currentNode->getInfoValue() ;
+    return currentNode->getInfo().getValue() ;
   }
 }
 
